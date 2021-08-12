@@ -1,5 +1,3 @@
-from socket import AF_INET, socket, SOCK_STREAM
-from threading import Thread
 import socket
 import json
 import tkinter as tk
@@ -39,7 +37,6 @@ ADDR = (HOST, PORT)
 SERVER = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
 SERVER.bind(ADDR)
 SERVER.listen(5)
-print("Chờ kết nối từ các client...")
 
 def getDataFromWebsite():
     url = "https://coronavirus-19-api.herokuapp.com/countries"
@@ -112,10 +109,8 @@ def handle_client(client, client_address):  # Takes client socket as argument.
     is_login = False
     while True:
         try:
-            print("RESTART")
             option = client.recv(BUFSIZE).decode(FORMAT)
             client.sendall(option.encode(FORMAT))
-            print(option)
             if is_login == True:
                     if option == SEARCH:
                         country = client.recv(BUFSIZE).decode(FORMAT)
@@ -136,24 +131,19 @@ def handle_client(client, client_address):  # Takes client socket as argument.
                                 client.recv(BUFSIZE)
                                 client.sendall("0".encode(FORMAT))
                                 client.recv(BUFSIZE)
+                                client.sendall("0".encode(FORMAT))
                         else:
                                 client.sendall(str(msg1).encode(FORMAT))
-                                print(msg1)
                                 client.recv(BUFSIZE)
                                 client.sendall(str(msg2).encode(FORMAT))
-                                print(msg2)
                                 client.recv(BUFSIZE)
                                 client.sendall(str(msg3).encode(FORMAT))
-                                print(msg3)
                                 client.recv(BUFSIZE)
                                 client.sendall(str(msg4).encode(FORMAT))
-                                print(msg4)
                                 client.recv(BUFSIZE)
                                 client.sendall(str(msg5).encode(FORMAT))
-                                print(msg5)
                                 client.recv(BUFSIZE)
                                 client.sendall(str(msg6).encode(FORMAT))
-                                print(msg6)
                                 client.recv(BUFSIZE)
                                 client.sendall(str(msg6).encode(FORMAT))
                     elif option == LOGOUT:
@@ -254,3 +244,4 @@ if __name__ == '__main__':
     sThread.daemon = True
     sThread.start()
     app.mainloop()
+

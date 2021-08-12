@@ -6,7 +6,7 @@ from tkinter import *
 from tkinter import ttk
 
 
-HOST = "127.0.0.1"
+HOST = input("Host: ")
 PORT = 55000
 HEADER = 64
 FORMAT = "utf8"
@@ -32,7 +32,7 @@ class News_App(tk.Tk):
         # icon = PhotoImage(file = "icon.png")
         # self.iconphoto(False, icon)
       
-        self.title("TIN TỨC COVID HÔM NAY")
+        self.title("COVID NEWS")
         self.geometry("500x200")
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.resizable(width=False, height=False)
@@ -86,17 +86,12 @@ class News_App(tk.Tk):
             sck.recv(1024)
             #send username and password to server
             sck.sendall(user.encode(FORMAT))
-            print("user:", user)
-
             sck.recv(1024)
-            
             sck.sendall(pswd.encode(FORMAT))
-            print("pass:", pswd)
 
 
             #see if login is accepted:
             accepted = sck.recv(1024).decode(FORMAT)
-            print("accepted: "+ accepted)
             if accepted == "1":
                 self.showFrame(HomePage)
                 curFrame.label_notice["text"] = ""
@@ -123,17 +118,12 @@ class News_App(tk.Tk):
             
             #send username and password to server
             sck.sendall(user.encode(FORMAT))
-            print("user:", user)
-
             sck.recv(1024)
-
             sck.sendall(pswd.encode(FORMAT))
-            print("pass:", pswd)
 
 
             # see if login is accepted
             accepted = sck.recv(1024).decode(FORMAT)
-            print("accepted: "+ accepted)
             if accepted == "1":
                 self.showFrame(HomePage)
                 curFrame.label_notice["text"] = ""
@@ -142,7 +132,6 @@ class News_App(tk.Tk):
 
         except:
             curFrame.label_notice["text"] = "Error 404: Server is not responding"
-            print("404")
 
     def logout(self,curFrame, sck):
         try:
@@ -166,7 +155,6 @@ class News_App(tk.Tk):
             sck.recv(1024)
 
             sck.sendall(str(country).encode(FORMAT))
-            print("Country: ", country) 
             sck.recv(1024)
             sck.sendall("1".encode(FORMAT))
 
@@ -211,7 +199,6 @@ class News_App(tk.Tk):
 
         except:
             curFrame.label_notice["text"] = "Error: Server is not responding"
-            print("Error: Server is not responding")
     def remove_one(self, tree):
         x = tree.selection()[0]
         tree.delete(x)
@@ -303,7 +290,6 @@ app = News_App()
 try:
     app.mainloop()
 except:
-    print("Error: server is not responding")
     client.close()
 finally:
     client.close()                          
