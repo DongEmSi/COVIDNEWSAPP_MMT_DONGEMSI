@@ -1,5 +1,4 @@
 import socket 
-import threading
 import tkinter as tk 
 from tkinter import messagebox
 from tkinter import *
@@ -279,7 +278,6 @@ class HomePage(tk.Frame):
         remove_button.pack()
 
     
-
 #GLOBAL socket initialize
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = (HOST, PORT)
@@ -290,6 +288,6 @@ app = News_App()
 try:
     app.mainloop()
 except:
-    client.close()
+     client.close()
 finally:
     client.close()                          
